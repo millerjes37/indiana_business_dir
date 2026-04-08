@@ -15,9 +15,10 @@ pub fn load_city_data() -> Result<HashMap<String, Vec<String>>> {
     Ok(map)
 }
 
+#[allow(dead_code)]
 pub fn list_counties(map: &HashMap<String, Vec<String>>) -> Vec<String> {
     let mut counties: Vec<String> = map.keys().cloned().collect();
-    counties.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+    counties.sort_by_key(|a| a.to_lowercase());
     counties
 }
 

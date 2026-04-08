@@ -22,12 +22,14 @@ struct RpcRequest {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct RpcResponse {
     id: i64,
     result: Option<Value>,
     error: Option<String>,
 }
 
+#[allow(dead_code)]
 impl BrowserDriver {
     pub async fn spawn(headless: bool) -> Result<Self> {
         let script_path = std::env::current_dir()?

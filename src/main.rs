@@ -79,7 +79,7 @@ async fn main() -> Result<()> {
             let zip_data = load_zip_data()?;
             let city_data = load_city_data()?;
             let mut counties: Vec<String> = zip_data.keys().cloned().collect();
-            counties.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+            counties.sort_by_key(|a| a.to_lowercase());
 
             println!("Available Indiana counties ({} total):", counties.len());
             for c in counties {

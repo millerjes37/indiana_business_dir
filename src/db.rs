@@ -16,6 +16,7 @@ impl Db {
         Ok(db)
     }
 
+    #[allow(dead_code)]
     pub fn open_in_memory() -> Result<Self> {
         let conn = Connection::open_in_memory().context("Failed to open in-memory SQLite")?;
         let db = Self { conn };
@@ -77,6 +78,7 @@ impl Db {
         Ok(())
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn insert_discovered(
         &self,
         county: &str,
@@ -208,6 +210,7 @@ impl Db {
         Ok(row)
     }
 
+    #[allow(dead_code)]
     pub fn count_by_status(&self, county: &str) -> Result<Vec<(String, i64)>> {
         let mut stmt = self.conn.prepare(
             "SELECT enrichment_status, COUNT(*) FROM businesses WHERE county = ?1 GROUP BY enrichment_status"
