@@ -1,0 +1,105 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            archive_name: indiana_business_dir-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
+          - target: x86_64-apple-darwin
+            os: macos-13
+            archive_name: indiana_business_dir-${{ github.ref_name }}-x86_64-apple-darwin.tar.gz
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            archive_name: indiana_business_dir-${{ github.ref_name }}-aarch64-apple-darwin.tar.gz
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            archive_name: indiana_business_dir-${{ github.ref_name }}-x86_64-pc-windows-msvc.zip
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-${{ matrix.target }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-${{ matrix.target }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build release binary
+        run: cargo build --release
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p dist/indiana_business_dir
+          cp target/release/indiana_business_dir dist/indiana_business_dir/
+          cp -r scripts dist/indiana_business_dir/
+          cp -r data dist/indiana_business_dir/
+          cp package.json package-lock.json README.md dist/indiana_business_dir/
+          cd dist
+          tar czf "${{ matrix.archive_name }}" indiana_business_dir
+          echo "ASSET=${{ matrix.archive_name }}" >> "$GITHUB_ENV"
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          New-Item -ItemType Directory -Force -Path dist\indiana_business_dir | Out-Null
+          Copy-Item target\release\indiana_business_dir.exe dist\indiana_business_dir\
+          Copy-Item -Recurse scripts dist\indiana_business_dir\
+          Copy-Item -Recurse data dist\indiana_business_dir\
+          Copy-Item package.json dist\indiana_business_dir\
+          Copy-Item package-lock.json dist\indiana_business_dir\
+          Copy-Item README.md dist\indiana_business_dir\
+          cd dist
+          Compress-Archive -Path indiana_business_dir -DestinationPath "${{ matrix.archive_name }}"
+          echo "ASSET=${{ matrix.archive_name }}" >> "$env:GITHUB_ENV"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: dist/${{ matrix.archive_name }}
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: '*'
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

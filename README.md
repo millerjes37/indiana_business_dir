@@ -1,6 +1,11 @@
 # Indiana Business Directory Scraper
 
+[![CI](https://github.com/millerjes37/indiana_business_dir/actions/workflows/ci.yml/badge.svg)](https://github.com/millerjes37/indiana_business_dir/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/millerjes37/indiana_business_dir?include_prereleases)](https://github.com/millerjes37/indiana_business_dir/releases)
+
 A Rust-based CLI tool that scrapes business entity records from the Indiana Secretary of State (INBiz) website (`bsd.sos.in.gov/publicbusinesssearch`) on a per-county basis. It discovers all registered businesses, enriches them with detailed SOS information (addresses, registered agents, governing persons, filing history), and exports the results to CSV.
+
+**[Download Prebuilt Binaries →](https://github.com/millerjes37/indiana_business_dir/releases)**
 
 ## Table of Contents
 
@@ -59,11 +64,62 @@ By using Playwright with `puppeteer-extra-plugin-stealth`, the tool:
 
 ## Prerequisites
 
-- **Rust** (1.85+)
-- **Node.js** (18+) with `npm`
+- **Node.js** (18+) with `npm` *(required at runtime for the Playwright browser driver)*
+- **Rust** (1.85+) *(only if building from source)*
 - **Playwright** (installed automatically via `npm install` in project directory)
 
 ## Installation
+
+### Quick Install (Prebuilt Binaries)
+
+Prebuilt binaries are available for **macOS (Intel & Apple Silicon)**, **Linux (x86_64)**, and **Windows (x86_64)** on the [Releases page](https://github.com/millerjes37/indiana_business_dir/releases).
+
+Each release archive includes the binary, the Node.js browser driver (`scripts/browser_driver.js`), embedded county data, and `package.json` / `package-lock.json` so you can install Node dependencies.
+
+#### macOS (Apple Silicon)
+
+```bash
+curl -LO https://github.com/millerjes37/indiana_business_dir/releases/latest/download/indiana_business_dir-v$(curl -s https://api.github.com/repos/millerjes37/indiana_business_dir/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')-aarch64-apple-darwin.tar.gz
+tar xzf indiana_business_dir-v*-aarch64-apple-darwin.tar.gz
+cd indiana_business_dir
+npm install
+./indiana_business_dir --help
+```
+
+#### macOS (Intel)
+
+```bash
+curl -LO https://github.com/millerjes37/indiana_business_dir/releases/latest/download/indiana_business_dir-v$(curl -s https://api.github.com/repos/millerjes37/indiana_business_dir/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')-x86_64-apple-darwin.tar.gz
+tar xzf indiana_business_dir-v*-x86_64-apple-darwin.tar.gz
+cd indiana_business_dir
+npm install
+./indiana_business_dir --help
+```
+
+#### Linux (x86_64)
+
+```bash
+curl -LO https://github.com/millerjes37/indiana_business_dir/releases/latest/download/indiana_business_dir-v$(curl -s https://api.github.com/repos/millerjes37/indiana_business_dir/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')-x86_64-unknown-linux-gnu.tar.gz
+tar xzf indiana_business_dir-v*-x86_64-unknown-linux-gnu.tar.gz
+cd indiana_business_dir
+npm install
+./indiana_business_dir --help
+```
+
+#### Windows (x86_64)
+
+```powershell
+# Download the latest release zip (replace vX.Y.Z with the actual version)
+Invoke-WebRequest -Uri "https://github.com/millerjes37/indiana_business_dir/releases/download/vX.Y.Z/indiana_business_dir-vX.Y.Z-x86_64-pc-windows-msvc.zip" -OutFile "indiana_business_dir.zip"
+Expand-Archive -Path "indiana_business_dir.zip" -DestinationPath "."
+cd indiana_business_dir
+npm install
+.\indiana_business_dir.exe --help
+```
+
+> **Note:** The binary expects `scripts/browser_driver.js` and `data/` to exist in the **current working directory**. Always run it from the extracted folder (or ensure those directories are present in your working directory).
+
+### Build from Source
 
 ```bash
 cd /path/to/indiana_business_dir
@@ -376,6 +432,11 @@ SELECT * FROM businesses WHERE county = 'Grant';
 
 - **Cause**: This project uses `CARGO_TARGET_DIR=/Users/jacksonmiller/.cargo/target`.
 - **Fix**: Use `make release` or `./run.sh build`, which handle the symlink automatically.
+
+### "`node: command not found`" or "Failed to spawn node browser_driver.js"
+
+- **Cause**: The Rust binary spawns `node scripts/browser_driver.js` at runtime, but Node.js is not installed or not in your PATH.
+- **Fix**: Install Node.js 18+ and ensure `node --version` works in your terminal. Then run `npm install` inside the project directory so that `playwright` and `puppeteer-extra-plugin-stealth` are available.
 
 ## Scraping Tiers
 
