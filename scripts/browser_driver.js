@@ -60,6 +60,31 @@ async function dismissOverlays() {
   }
 }
 
+async function waitForGridOrFooter() {
+  try {
+    await page.waitForSelector('table#grid_businessList, .borderFooter', { timeout: 15000 });
+  } catch (e) {
+    // ignore; fallback to fixed wait handled by caller
+  }
+}
+
+async function withRetry(fn, maxTries = 3, delayMs = 1500) {
+  let lastErr;
+  for (let i = 0; i < maxTries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      const msg = err && err.message ? err.message : String(err);
+      if (!msg.includes('Execution context was destroyed') && !msg.includes('Target closed') && !msg.includes('Target page, context or browser has been closed')) {
+        throw err;
+      }
+      if (i < maxTries - 1) await page.waitForTimeout(delayMs);
+    }
+  }
+  throw lastErr;
+}
+
 async function handleCommand(cmd) {
   const { id, method, params } = cmd;
 
@@ -95,6 +120,7 @@ async function handleCommand(cmd) {
         await page.locator('#txtZipCode').fill(String(params.zip));
         await dismissOverlays();
         await page.locator('#btnSearch').click({ force: true });
+        await waitForGridOrFooter();
         await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
         sendResponse(id, { status: 'ok', url: page.url(), error: error.trim() || null });
@@ -110,6 +136,7 @@ async function handleCommand(cmd) {
         await page.locator('#txtCity').fill(city);
         await dismissOverlays();
         await page.locator('#btnSearch').click({ force: true });
+        await waitForGridOrFooter();
         await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
         sendResponse(id, { status: 'ok', url: page.url(), error: error.trim() || null });
@@ -124,6 +151,7 @@ async function handleCommand(cmd) {
         await page.locator('#txtCity').fill(String(params.city));
         await dismissOverlays();
         await page.locator('#btnSearch').click({ force: true });
+        await waitForGridOrFooter();
         await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
         sendResponse(id, { status: 'ok', url: page.url(), error: error.trim() || null });
@@ -131,35 +159,39 @@ async function handleCommand(cmd) {
       }
 
       case 'extract_results': {
-        const tables = await page.locator('table#grid_businessList').evaluateAll(tbs => {
-          if (tbs.length === 0) return { rows: [] };
-          const tb = tbs[0];
-          const rows = [];
-          for (let i = 1; i < tb.rows.length; i++) {
-            const cells = Array.from(tb.rows[i].querySelectorAll('td')).map(td => td.innerText.trim());
-            const link = tb.rows[i].querySelector('a[onclick*="BusinessInformation"]');
-            rows.push({
-              business_id_display: cells[0] || '',
-              business_name: cells[1] || '',
-              name_type: cells[2] || '',
-              entity_type: cells[3] || '',
-              principal_address: cells[4] || '',
-              registered_agent_name: cells[5] || '',
-              status: cells[6] || '',
-              detail_business_id: link ? link.getAttribute('businessid') : null,
-              detail_business_type: link ? link.getAttribute('businesstype') : null,
-              detail_is_series: link ? link.getAttribute('isseries') : null,
-              detail_link_id: link ? link.getAttribute('id') : null
-            });
-          }
-          return { rows };
+        const tables = await withRetry(async () => {
+          return await page.locator('table#grid_businessList').evaluateAll(tbs => {
+            if (tbs.length === 0) return { rows: [] };
+            const tb = tbs[0];
+            const rows = [];
+            for (let i = 1; i < tb.rows.length; i++) {
+              const cells = Array.from(tb.rows[i].querySelectorAll('td')).map(td => td.innerText.trim());
+              const link = tb.rows[i].querySelector('a[onclick*="BusinessInformation"]');
+              rows.push({
+                business_id_display: cells[0] || '',
+                business_name: cells[1] || '',
+                name_type: cells[2] || '',
+                entity_type: cells[3] || '',
+                principal_address: cells[4] || '',
+                registered_agent_name: cells[5] || '',
+                status: cells[6] || '',
+                detail_business_id: link ? link.getAttribute('businessid') : null,
+                detail_business_type: link ? link.getAttribute('businesstype') : null,
+                detail_is_series: link ? link.getAttribute('isseries') : null,
+                detail_link_id: link ? link.getAttribute('id') : null
+              });
+            }
+            return { rows };
+          });
         });
         sendResponse(id, tables);
         break;
       }
 
       case 'get_pagination_info': {
-        const footerText = await page.locator('.borderFooter').textContent().catch(() => '');
+        const footerText = await withRetry(async () => {
+          return await page.locator('.borderFooter').textContent();
+        }).catch(() => '');
         const match = footerText.match(/Page\s+(\d+)\s+of\s+([\d,]+),\s+records\s+([\d,]+)\s+to\s+([\d,]+)\s+of\s+([\d,]+)/i);
         sendResponse(id, {
           text: footerText.trim(),
@@ -187,6 +219,7 @@ async function handleCommand(cmd) {
         }
         await dismissOverlays();
         await nextLink.click({ force: true });
+        await waitForGridOrFooter();
         await page.waitForTimeout(3000);
         sendResponse(id, { clicked: true });
         break;
