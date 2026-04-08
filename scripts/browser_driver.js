@@ -44,6 +44,22 @@ async function ensureSearchPage() {
   }
 }
 
+async function dismissOverlays() {
+  const overlay = page.locator('.ui-widget-overlay');
+  try {
+    await overlay.waitFor({ state: 'hidden', timeout: 10000 });
+  } catch (e) {
+    // Overlay still visible; try to close any dialog
+    const closeBtn = page.locator('.ui-dialog-titlebar-close').first();
+    if (await closeBtn.isVisible().catch(() => false)) {
+      await closeBtn.click({ force: true });
+      await page.waitForTimeout(500);
+    }
+    await page.keyboard.press('Escape').catch(() => {});
+    await page.waitForTimeout(500);
+  }
+}
+
 async function handleCommand(cmd) {
   const { id, method, params } = cmd;
 
@@ -77,6 +93,7 @@ async function handleCommand(cmd) {
         await page.locator('#rdContains').check();
         await page.locator('#rdBusinessName').check();
         await page.locator('#txtZipCode').fill(String(params.zip));
+        await dismissOverlays();
         await page.locator('#btnSearch').click({ force: true });
         await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
@@ -91,6 +108,7 @@ async function handleCommand(cmd) {
         // Strip common Census suffixes like " city", " town", " CDP", " village"
         let city = String(params.city).replace(/\s+(city|town|cdp|village)$/i, '');
         await page.locator('#txtCity').fill(city);
+        await dismissOverlays();
         await page.locator('#btnSearch').click({ force: true });
         await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
@@ -104,6 +122,7 @@ async function handleCommand(cmd) {
         await page.locator('#rdBusinessName').check();
         await page.locator('#txtBusinessName').fill(String(params.name));
         await page.locator('#txtCity').fill(String(params.city));
+        await dismissOverlays();
         await page.locator('#btnSearch').click({ force: true });
         await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
@@ -166,7 +185,8 @@ async function handleCommand(cmd) {
           sendResponse(id, { clicked: false, reason: 'disabled' });
           break;
         }
-        await nextLink.click();
+        await dismissOverlays();
+        await nextLink.click({ force: true });
         await page.waitForTimeout(3000);
         sendResponse(id, { clicked: true });
         break;

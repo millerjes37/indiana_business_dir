@@ -78,9 +78,13 @@ pub async fn scrape(
             location
         );
 
-        let error = match args.search_mode {
-            SearchMode::Zip => driver.search_zip(location).await?,
-            SearchMode::City => driver.search_city(location).await?,
+        let error = match reset_search(driver, args.search_mode, location).await {
+            Ok(err) => err,
+            Err(e) => {
+                warn!("Search failed for {}: {}", location, e);
+                sleep(Duration::from_millis(args.search_delay_ms)).await;
+                continue;
+            }
         };
 
         if let Some(err) = error {
@@ -90,8 +94,33 @@ pub async fn scrape(
         }
 
         let mut page_num = 1;
+        let mut session_retries = 0;
+        const MAX_SESSION_RETRIES: usize = 3;
+
         loop {
-            let rows = driver.extract_results().await?;
+            let rows = match driver.extract_results().await {
+                Ok(r) => r,
+                Err(e) => {
+                    warn!(
+                        "extract_results failed for {} page {}: {}",
+                        location, page_num, e
+                    );
+                    session_retries += 1;
+                    if session_retries > MAX_SESSION_RETRIES {
+                        warn!(
+                            "Too many errors for {}, skipping to next location",
+                            location
+                        );
+                        break;
+                    }
+                    if let Err(e2) = reset_search(driver, args.search_mode, location).await {
+                        warn!("Failed to reset search for {}: {}", location, e2);
+                        break;
+                    }
+                    page_num = 1;
+                    continue;
+                }
+            };
             info!("  Page {}: extracted {} rows", page_num, rows.len());
 
             for row in rows {
@@ -147,7 +176,29 @@ pub async fn scrape(
                 }
             }
 
-            let pagination = driver.get_pagination_info().await?;
+            let pagination = match driver.get_pagination_info().await {
+                Ok(p) => p,
+                Err(e) => {
+                    warn!(
+                        "get_pagination_info failed for {} page {}: {}",
+                        location, page_num, e
+                    );
+                    session_retries += 1;
+                    if session_retries > MAX_SESSION_RETRIES {
+                        warn!(
+                            "Too many errors for {}, skipping to next location",
+                            location
+                        );
+                        break;
+                    }
+                    if let Err(e2) = reset_search(driver, args.search_mode, location).await {
+                        warn!("Failed to reset search for {}: {}", location, e2);
+                        break;
+                    }
+                    page_num = 1;
+                    continue;
+                }
+            };
             info!("  Pagination: {}", pagination.text);
 
             // Check if there are more pages
@@ -162,12 +213,39 @@ pub async fn scrape(
 
             // Click next
             sleep(Duration::from_millis(args.page_delay_ms)).await;
-            let clicked = driver.click_next().await?;
+            let clicked = match driver.click_next().await {
+                Ok(c) => c,
+                Err(e) => {
+                    warn!(
+                        "click_next failed for {} page {}: {}",
+                        location, page_num, e
+                    );
+                    session_retries += 1;
+                    if session_retries > MAX_SESSION_RETRIES {
+                        warn!(
+                            "Too many session errors for {}, skipping to next location",
+                            location
+                        );
+                        break;
+                    }
+                    warn!(
+                        "Re-searching {} to reset session timer (retry {}/{})...",
+                        location, session_retries, MAX_SESSION_RETRIES
+                    );
+                    if let Err(e2) = reset_search(driver, args.search_mode, location).await {
+                        warn!("Failed to reset search for {}: {}", location, e2);
+                        break;
+                    }
+                    page_num = 1;
+                    continue;
+                }
+            };
             if !clicked {
                 warn!("  Pagination ended unexpectedly");
                 break;
             }
             page_num += 1;
+            session_retries = 0;
         }
 
         sleep(Duration::from_millis(args.search_delay_ms)).await;
@@ -175,4 +253,15 @@ pub async fn scrape(
 
     info!("Primary scraper complete for {}", county_norm);
     Ok(())
+}
+
+async fn reset_search(
+    driver: &mut BrowserDriver,
+    mode: SearchMode,
+    location: &str,
+) -> Result<Option<String>> {
+    match mode {
+        SearchMode::Zip => driver.search_zip(location).await,
+        SearchMode::City => driver.search_city(location).await,
+    }
 }
