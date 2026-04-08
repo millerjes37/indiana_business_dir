@@ -4,7 +4,12 @@ use chrono::Utc;
 use std::fs;
 use std::path::Path;
 
-pub fn write_csv(db: &Db, county: &str, output_dir: &Path, explicit_csv: Option<&Path>) -> Result<String> {
+pub fn write_csv(
+    db: &Db,
+    county: &str,
+    output_dir: &Path,
+    explicit_csv: Option<&Path>,
+) -> Result<String> {
     let records = db.get_records_for_export(county)?;
 
     let path = if let Some(p) = explicit_csv {

@@ -41,7 +41,10 @@ pub async fn scrape(driver: &mut BrowserDriver, db: &Db, county: &str) -> Result
             }
         };
 
-        let detail = match driver.get_detail(&bid, business_type.as_deref(), is_series.as_deref()).await {
+        let detail = match driver
+            .get_detail(&bid, business_type.as_deref(), is_series.as_deref())
+            .await
+        {
             Ok(d) => d,
             Err(e) => {
                 warn!("Failed to get detail for {}: {}", business_id, e);
@@ -53,7 +56,10 @@ pub async fn scrape(driver: &mut BrowserDriver, db: &Db, county: &str) -> Result
 
         // Only update if we found at least one meaningful field to avoid overwriting discovered data
         if !has_meaningful_data(&record) {
-            warn!("No meaningful detail data found for {}, skipping update", business_id);
+            warn!(
+                "No meaningful detail data found for {}, skipping update",
+                business_id
+            );
             continue;
         }
 

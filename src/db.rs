@@ -1,7 +1,7 @@
 use crate::models::{BusinessRecord, EnrichmentStatus};
 use anyhow::{Context, Result};
 use chrono::{DateTime, Utc};
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 use std::path::Path;
 
 pub struct Db {
@@ -57,14 +57,22 @@ impl Db {
             [],
         )?;
         // Add detail columns if they don't exist (for existing databases)
-        let cols: Vec<String> = self.conn.prepare("PRAGMA table_info(businesses)")?
+        let cols: Vec<String> = self
+            .conn
+            .prepare("PRAGMA table_info(businesses)")?
             .query_map([], |row| row.get::<_, String>(1))?
             .collect::<Result<Vec<_>, _>>()?;
         if !cols.contains(&"detail_business_type".to_string()) {
-            self.conn.execute("ALTER TABLE businesses ADD COLUMN detail_business_type TEXT", [])?;
+            self.conn.execute(
+                "ALTER TABLE businesses ADD COLUMN detail_business_type TEXT",
+                [],
+            )?;
         }
         if !cols.contains(&"detail_is_series".to_string()) {
-            self.conn.execute("ALTER TABLE businesses ADD COLUMN detail_is_series TEXT", [])?;
+            self.conn.execute(
+                "ALTER TABLE businesses ADD COLUMN detail_is_series TEXT",
+                [],
+            )?;
         }
         Ok(())
     }
@@ -131,12 +139,21 @@ impl Db {
             ("inactive_date", record.inactive_date.as_deref()),
             ("expiration_date", record.expiration_date.as_deref()),
             ("report_due_date", record.report_due_date.as_deref()),
-            ("registered_agent_name", record.registered_agent_name.as_deref()),
-            ("registered_agent_address", record.registered_agent_address.as_deref()),
+            (
+                "registered_agent_name",
+                record.registered_agent_name.as_deref(),
+            ),
+            (
+                "registered_agent_address",
+                record.registered_agent_address.as_deref(),
+            ),
             ("governing_persons", record.governing_persons.as_deref()),
             ("filing_history", record.filing_history.as_deref()),
             ("phone_number", record.phone_number.as_deref()),
-            ("detail_business_type", record.detail_business_type.as_deref()),
+            (
+                "detail_business_type",
+                record.detail_business_type.as_deref(),
+            ),
             ("detail_is_series", record.detail_is_series.as_deref()),
         ];
         for (col, val) in fields {
@@ -167,11 +184,17 @@ impl Db {
         let mut stmt = self.conn.prepare(
             "SELECT business_id FROM businesses WHERE county = ?1 AND enrichment_status = ?2 ORDER BY business_id"
         )?;
-        let rows = stmt.query_map(params![county, status.as_str()], |row| row.get::<_, String>(0))?;
-        rows.collect::<Result<Vec<_>, _>>().context("Failed to collect pending IDs")
+        let rows = stmt.query_map(params![county, status.as_str()], |row| {
+            row.get::<_, String>(0)
+        })?;
+        rows.collect::<Result<Vec<_>, _>>()
+            .context("Failed to collect pending IDs")
     }
 
-    pub fn get_detail_params(&self, business_id: &str) -> Result<(String, Option<String>, Option<String>)> {
+    pub fn get_detail_params(
+        &self,
+        business_id: &str,
+    ) -> Result<(String, Option<String>, Option<String>)> {
         let mut stmt = self.conn.prepare(
             "SELECT business_id, detail_business_type, detail_is_series FROM businesses WHERE business_id = ?1"
         )?;
@@ -192,7 +215,8 @@ impl Db {
         let rows = stmt.query_map(params![county], |row| {
             Ok((row.get::<_, String>(0)?, row.get::<_, i64>(1)?))
         })?;
-        rows.collect::<Result<Vec<_>, _>>().context("Failed to count by status")
+        rows.collect::<Result<Vec<_>, _>>()
+            .context("Failed to count by status")
     }
 
     pub fn get_records_for_export(&self, county: &str) -> Result<Vec<BusinessRecord>> {
@@ -205,7 +229,7 @@ impl Db {
                 governing_persons, filing_history, phone_number,
                 detail_business_type, detail_is_series,
                 enrichment_status, created_at, updated_at
-            FROM businesses WHERE county = ?1 ORDER BY business_id"
+            FROM businesses WHERE county = ?1 ORDER BY business_id",
         )?;
         let rows = stmt.query_map(params![county], |row| {
             Ok(BusinessRecord {
@@ -229,11 +253,17 @@ impl Db {
                 phone_number: row.get(17)?,
                 detail_business_type: row.get(18)?,
                 detail_is_series: row.get(19)?,
-                enrichment_status: row.get::<_, String>(20)?.parse().unwrap_or(EnrichmentStatus::Discovered),
-                created_at: DateTime::from_timestamp(row.get::<_, i64>(21)?, 0).unwrap_or_else(Utc::now),
-                updated_at: DateTime::from_timestamp(row.get::<_, i64>(22)?, 0).unwrap_or_else(Utc::now),
+                enrichment_status: row
+                    .get::<_, String>(20)?
+                    .parse()
+                    .unwrap_or(EnrichmentStatus::Discovered),
+                created_at: DateTime::from_timestamp(row.get::<_, i64>(21)?, 0)
+                    .unwrap_or_else(Utc::now),
+                updated_at: DateTime::from_timestamp(row.get::<_, i64>(22)?, 0)
+                    .unwrap_or_else(Utc::now),
             })
         })?;
-        rows.collect::<Result<Vec<_>, _>>().context("Failed to collect export records")
+        rows.collect::<Result<Vec<_>, _>>()
+            .context("Failed to collect export records")
     }
 }

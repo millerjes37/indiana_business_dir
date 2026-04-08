@@ -26,21 +26,22 @@ use tracing::{info, warn};
 /// The `detail_business_id`, `detail_business_type`, and `detail_is_series`
 /// values scraped from the grid link are stored in SQLite so the secondary
 /// scraper can navigate directly to the correct SOS detail page later.
-pub async fn scrape(driver: &mut BrowserDriver, db: &Db, args: &ScrapeArgs, county: &str) -> Result<()> {
+pub async fn scrape(
+    driver: &mut BrowserDriver,
+    db: &Db,
+    args: &ScrapeArgs,
+    county: &str,
+) -> Result<()> {
     let county_norm = normalize_county_name(county);
 
     let mut locations = match args.search_mode {
         SearchMode::Zip => {
             let data = load_zip_data()?;
-            data.get(&county_norm)
-                .cloned()
-                .unwrap_or_default()
+            data.get(&county_norm).cloned().unwrap_or_default()
         }
         SearchMode::City => {
             let data = load_city_data()?;
-            data.get(&county_norm)
-                .cloned()
-                .unwrap_or_default()
+            data.get(&county_norm).cloned().unwrap_or_default()
         }
     };
 
@@ -63,10 +64,19 @@ pub async fn scrape(driver: &mut BrowserDriver, db: &Db, args: &ScrapeArgs, coun
         locations
     };
 
-    info!("Found {} locations to search for {}", locations.len(), county_norm);
+    info!(
+        "Found {} locations to search for {}",
+        locations.len(),
+        county_norm
+    );
 
     for (idx, location) in locations.iter().enumerate() {
-        info!("[{}/{}] Searching location: {}", idx + 1, locations.len(), location);
+        info!(
+            "[{}/{}] Searching location: {}",
+            idx + 1,
+            locations.len(),
+            location
+        );
 
         let error = match args.search_mode {
             SearchMode::Zip => driver.search_zip(location).await?,
@@ -86,21 +96,52 @@ pub async fn scrape(driver: &mut BrowserDriver, db: &Db, args: &ScrapeArgs, coun
 
             for row in rows {
                 // Use detail_business_id if available, else the display ID
-                let bid = row.detail_business_id.unwrap_or_else(|| row.business_id_display.clone());
+                let bid = row
+                    .detail_business_id
+                    .unwrap_or_else(|| row.business_id_display.clone());
                 if bid.is_empty() {
                     continue;
                 }
-                let name = if row.business_name.is_empty() { None } else { Some(row.business_name.as_str()) };
-                let entity_type = if row.entity_type.is_empty() { None } else { Some(row.entity_type.as_str()) };
-                let status = if row.status.is_empty() { None } else { Some(row.status.as_str()) };
-                let principal_address = if row.principal_address.is_empty() { None } else { Some(row.principal_address.as_str()) };
-                let registered_agent_name = if row.registered_agent_name.is_empty() { None } else { Some(row.registered_agent_name.as_str()) };
-                let detail_business_type = row.detail_business_type.as_deref().filter(|s| !s.is_empty());
+                let name = if row.business_name.is_empty() {
+                    None
+                } else {
+                    Some(row.business_name.as_str())
+                };
+                let entity_type = if row.entity_type.is_empty() {
+                    None
+                } else {
+                    Some(row.entity_type.as_str())
+                };
+                let status = if row.status.is_empty() {
+                    None
+                } else {
+                    Some(row.status.as_str())
+                };
+                let principal_address = if row.principal_address.is_empty() {
+                    None
+                } else {
+                    Some(row.principal_address.as_str())
+                };
+                let registered_agent_name = if row.registered_agent_name.is_empty() {
+                    None
+                } else {
+                    Some(row.registered_agent_name.as_str())
+                };
+                let detail_business_type = row
+                    .detail_business_type
+                    .as_deref()
+                    .filter(|s| !s.is_empty());
                 let detail_is_series = row.detail_is_series.as_deref().filter(|s| !s.is_empty());
                 if let Err(e) = db.insert_discovered(
-                    &county_norm, &bid, name, entity_type, status,
-                    principal_address, registered_agent_name,
-                    detail_business_type, detail_is_series
+                    &county_norm,
+                    &bid,
+                    name,
+                    entity_type,
+                    status,
+                    principal_address,
+                    registered_agent_name,
+                    detail_business_type,
+                    detail_is_series,
                 ) {
                     warn!("Failed to insert {}: {}", bid, e);
                 }

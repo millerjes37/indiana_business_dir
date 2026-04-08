@@ -71,7 +71,9 @@ impl BrowserDriver {
             next_id: 1,
         };
 
-        driver.send_cmd("launch", serde_json::json!({"headless": headless})).await?;
+        driver
+            .send_cmd("launch", serde_json::json!({"headless": headless}))
+            .await?;
         Ok(driver)
     }
 
@@ -83,7 +85,10 @@ impl BrowserDriver {
         self.stdin.flush().await?;
 
         let mut buf = String::new();
-        self.stdout_reader.read_line(&mut buf).await.context("Browser driver stdout closed")?;
+        self.stdout_reader
+            .read_line(&mut buf)
+            .await
+            .context("Browser driver stdout closed")?;
         debug!("<- {}", buf.trim());
 
         let resp: RpcResponse = serde_json::from_str(&buf)
@@ -103,7 +108,8 @@ impl BrowserDriver {
             id,
             method: method.to_string(),
             params,
-        }).await
+        })
+        .await
     }
 
     pub async fn navigate_search(&mut self) -> Result<()> {
@@ -114,8 +120,13 @@ impl BrowserDriver {
 
     pub async fn search_zip(&mut self, zip: &str) -> Result<Option<String>> {
         info!("Searching ZIP: {}", zip);
-        let res = self.send_cmd("search_zip", serde_json::json!({"zip": zip})).await?;
-        let error = res.get("error").and_then(|v| v.as_str()).map(|s| s.to_string());
+        let res = self
+            .send_cmd("search_zip", serde_json::json!({"zip": zip}))
+            .await?;
+        let error = res
+            .get("error")
+            .and_then(|v| v.as_str())
+            .map(|s| s.to_string());
         if let Some(err) = error {
             if !err.is_empty() {
                 warn!("Search ZIP error: {}", err);
@@ -127,8 +138,13 @@ impl BrowserDriver {
 
     pub async fn search_city(&mut self, city: &str) -> Result<Option<String>> {
         info!("Searching City: {}", city);
-        let res = self.send_cmd("search_city", serde_json::json!({"city": city})).await?;
-        let error = res.get("error").and_then(|v| v.as_str()).map(|s| s.to_string());
+        let res = self
+            .send_cmd("search_city", serde_json::json!({"city": city}))
+            .await?;
+        let error = res
+            .get("error")
+            .and_then(|v| v.as_str())
+            .map(|s| s.to_string());
         if let Some(err) = error {
             if !err.is_empty() {
                 warn!("Search City error: {}", err);
@@ -140,8 +156,16 @@ impl BrowserDriver {
 
     pub async fn search_name_city(&mut self, name: &str, city: &str) -> Result<Option<String>> {
         info!("Searching Name: '{}' + City: '{}'", name, city);
-        let res = self.send_cmd("search_name_city", serde_json::json!({"name": name, "city": city})).await?;
-        let error = res.get("error").and_then(|v| v.as_str()).map(|s| s.to_string());
+        let res = self
+            .send_cmd(
+                "search_name_city",
+                serde_json::json!({"name": name, "city": city}),
+            )
+            .await?;
+        let error = res
+            .get("error")
+            .and_then(|v| v.as_str())
+            .map(|s| s.to_string());
         if let Some(err) = error {
             if !err.is_empty() {
                 warn!("Search Name+City error: {}", err);
@@ -153,25 +177,34 @@ impl BrowserDriver {
 
     pub async fn extract_results(&mut self) -> Result<Vec<SearchResultRow>> {
         let res = self.send_cmd("extract_results", Value::Null).await?;
-        let rows: Vec<SearchResultRow> = serde_json::from_value(
-            res.get("rows").cloned().unwrap_or(Value::Array(vec![]))
-        ).context("Failed to parse search results")?;
+        let rows: Vec<SearchResultRow> =
+            serde_json::from_value(res.get("rows").cloned().unwrap_or(Value::Array(vec![])))
+                .context("Failed to parse search results")?;
         Ok(rows)
     }
 
     pub async fn get_pagination_info(&mut self) -> Result<PaginationInfo> {
         let res = self.send_cmd("get_pagination_info", Value::Null).await?;
-        let info: PaginationInfo = serde_json::from_value(res).context("Failed to parse pagination info")?;
+        let info: PaginationInfo =
+            serde_json::from_value(res).context("Failed to parse pagination info")?;
         Ok(info)
     }
 
     pub async fn click_next(&mut self) -> Result<bool> {
         let res = self.send_cmd("click_next", Value::Null).await?;
-        let clicked = res.get("clicked").and_then(|v| v.as_bool()).unwrap_or(false);
+        let clicked = res
+            .get("clicked")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false);
         Ok(clicked)
     }
 
-    pub async fn get_detail(&mut self, business_id: &str, business_type: Option<&str>, is_series: Option<&str>) -> Result<Value> {
+    pub async fn get_detail(
+        &mut self,
+        business_id: &str,
+        business_type: Option<&str>,
+        is_series: Option<&str>,
+    ) -> Result<Value> {
         info!("Fetching detail for business_id: {}", business_id);
         let mut params = serde_json::json!({"business_id": business_id});
         if let Some(bt) = business_type {

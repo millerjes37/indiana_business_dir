@@ -80,7 +80,12 @@ pub struct ScrapeArgs {
     ///   <OUTPUT_DIR>/<county>/<county>_<YYYY-MM-DD>_<unix_epoch>.csv
     ///
     /// This option is ignored if --csv is also provided.
-    #[arg(long, short, default_value = "outputs", help = "Directory for generated CSV files")]
+    #[arg(
+        long,
+        short,
+        default_value = "outputs",
+        help = "Directory for generated CSV files"
+    )]
     pub output_dir: PathBuf,
 
     /// Run the Playwright browser in visible (headful) mode.
@@ -95,7 +100,10 @@ pub struct ScrapeArgs {
     ///
     /// If you omit this flag, the driver will time out on the
     /// first CAPTCHA and the scrape will fail.
-    #[arg(long, help = "Open a visible browser window for manual CAPTCHA solving")]
+    #[arg(
+        long,
+        help = "Open a visible browser window for manual CAPTCHA solving"
+    )]
     pub headful: bool,
 
     /// Resume a previous run using the SQLite database.
@@ -109,7 +117,10 @@ pub struct ScrapeArgs {
     /// Note: Resume works best when combined with --skip-primary
     /// if you already finished the discovery phase and only need
     /// to finish enrichment.
-    #[arg(long, help = "Skip already-complete records and continue where you left off")]
+    #[arg(
+        long,
+        help = "Skip already-complete records and continue where you left off"
+    )]
     pub resume: bool,
 
     /// Skip the primary scraper (business discovery phase).
@@ -158,7 +169,11 @@ pub struct ScrapeArgs {
     /// yields fewer searches than ZIP mode while still capturing
     /// the majority of businesses. Rural unincorporated areas
     /// may be missed.
-    #[arg(long, default_value = "zip", help = "Discovery strategy: zip (exhaustive) or city (fewer CAPTCHAs)")]
+    #[arg(
+        long,
+        default_value = "zip",
+        help = "Discovery strategy: zip (exhaustive) or city (fewer CAPTCHAs)"
+    )]
     pub search_mode: SearchMode,
 
     /// Path to the SQLite database file.
@@ -168,7 +183,11 @@ pub struct ScrapeArgs {
     /// enrichment_status, addresses, agent info, governing persons,
     /// filing history, and timestamps. You can inspect it directly
     /// with the sqlite3 CLI.
-    #[arg(long, default_value = "indiana_business_dir.db", help = "Path to the SQLite state database")]
+    #[arg(
+        long,
+        default_value = "indiana_business_dir.db",
+        help = "Path to the SQLite state database"
+    )]
     pub db: PathBuf,
 
     /// Delay in milliseconds between pagination clicks.
@@ -179,7 +198,11 @@ pub struct ScrapeArgs {
     ///
     /// Increase this value if you see "Pagination ended unexpectedly"
     /// or if pages load slowly.
-    #[arg(long, default_value_t = 3000, help = "Wait time between Next-page clicks (default: 3000)")]
+    #[arg(
+        long,
+        default_value_t = 3000,
+        help = "Wait time between Next-page clicks (default: 3000)"
+    )]
     pub page_delay_ms: u64,
 
     /// Delay in milliseconds between distinct searches.
@@ -188,7 +211,11 @@ pub struct ScrapeArgs {
     /// pauses this long before submitting the next search.
     /// This gives the browser time to settle and reduces the
     /// chance of being rate-limited by Cloudflare.
-    #[arg(long, default_value_t = 5000, help = "Wait time between new ZIP/city searches (default: 5000)")]
+    #[arg(
+        long,
+        default_value_t = 5000,
+        help = "Wait time between new ZIP/city searches (default: 5000)"
+    )]
     pub search_delay_ms: u64,
 
     /// Cap the number of locations to search.
@@ -206,7 +233,11 @@ pub struct ScrapeArgs {
     /// not appear within this window, the driver errors out
     /// and the Rust process exits. Increase this if you need
     /// more time to solve difficult image challenges.
-    #[arg(long, default_value_t = 120, help = "Seconds to wait for manual CAPTCHA solution (default: 120)")]
+    #[arg(
+        long,
+        default_value_t = 120,
+        help = "Seconds to wait for manual CAPTCHA solution (default: 120)"
+    )]
     pub captcha_timeout: u64,
 
     /// Explicit CSV output file path.
@@ -215,7 +246,11 @@ pub struct ScrapeArgs {
     /// instead of the auto-generated
     /// outputs/<county>/<county>_<date>_<epoch>.csv location.
     /// Parent directories are created automatically.
-    #[arg(long, short, help = "Explicit CSV file path (overrides auto-generated name)")]
+    #[arg(
+        long,
+        short,
+        help = "Explicit CSV file path (overrides auto-generated name)"
+    )]
     pub csv: Option<PathBuf>,
 }
 
@@ -233,7 +268,12 @@ pub struct ExportArgs {
     ///
     /// Ignored if --csv is provided. A subdirectory named after
     /// the county is created inside this directory.
-    #[arg(long, short, default_value = "outputs", help = "Directory for generated CSV")]
+    #[arg(
+        long,
+        short,
+        default_value = "outputs",
+        help = "Directory for generated CSV"
+    )]
     pub output_dir: PathBuf,
 
     /// Explicit CSV output file path.
@@ -241,7 +281,11 @@ pub struct ExportArgs {
     /// If provided, the CSV is written to this exact path instead
     /// of the auto-generated location under --output-dir.
     /// Parent directories are created automatically.
-    #[arg(long, short, help = "Explicit CSV file path (overrides auto-generated name)")]
+    #[arg(
+        long,
+        short,
+        help = "Explicit CSV file path (overrides auto-generated name)"
+    )]
     pub csv: Option<PathBuf>,
 
     /// SQLite database path.
@@ -249,7 +293,11 @@ pub struct ExportArgs {
     /// Defaults to indiana_business_dir.db in the current working
     /// directory. Use this to export from a backup or an alternate
     /// run location.
-    #[arg(long, default_value = "indiana_business_dir.db", help = "Path to the SQLite state database")]
+    #[arg(
+        long,
+        default_value = "indiana_business_dir.db",
+        help = "Path to the SQLite state database"
+    )]
     pub db: PathBuf,
 }
 
