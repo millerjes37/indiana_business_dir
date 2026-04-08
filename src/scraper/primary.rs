@@ -7,6 +7,25 @@ use std::time::Duration;
 use tokio::time::sleep;
 use tracing::{info, warn};
 
+/// Primary scraper: discover business IDs by searching ZIP codes or cities.
+///
+/// This function loads the location list for the target county from embedded
+/// Census JSON (`in_zips.json` or `in_cities.json`), optionally filters it
+/// by the `--city` CLI argument, and then iterates over each location.
+///
+/// For every location it:
+/// 1. Submits a search via the browser driver (`search_zip` or `search_city`).
+/// 2. Enters a pagination loop:
+///    - Extracts all rows from `table#grid_businessList`.
+///    - Upserts each row into SQLite with `enrichment_status = discovered`.
+///      The upsert uses `COALESCE` so existing enriched data is preserved.
+///    - Reads pagination info to determine if more pages exist.
+///    - Clicks "Next" and sleeps for `--page-delay-ms`.
+/// 3. Sleeps for `--search-delay-ms` before the next location.
+///
+/// The `detail_business_id`, `detail_business_type`, and `detail_is_series`
+/// values scraped from the grid link are stored in SQLite so the secondary
+/// scraper can navigate directly to the correct SOS detail page later.
 pub async fn scrape(driver: &mut BrowserDriver, db: &Db, args: &ScrapeArgs, county: &str) -> Result<()> {
     let county_norm = normalize_county_name(county);
 

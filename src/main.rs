@@ -1,3 +1,16 @@
+//! Indiana Business Directory Scraper — CLI entry point.
+//!
+//! This binary orchestrates three subcommands:
+//! - `list`: Display available Indiana counties.
+//! - `scrape`: Launch a Playwright browser, discover businesses by ZIP/city,
+//!   enrich them from SOS detail pages, and export to CSV.
+//! - `export`: Read existing SQLite records and write CSV without scraping.
+//!
+//! The scrape workflow delegates to modules in `src/scraper/`:
+//! 1. `primary::scrape`   — Search SOS grid and insert discovered records.
+//! 2. `secondary::scrape` — Visit detail pages and enrich discovered records.
+//! 3. `tertiary::scrape`  — Mark enriched records complete (phone stub).
+
 mod browser_driver;
 mod cli;
 mod counties;
