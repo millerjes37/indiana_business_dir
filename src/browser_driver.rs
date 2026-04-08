@@ -32,11 +32,14 @@ struct RpcResponse {
 /// Resolves the path to `scripts/browser_driver.js` relative to the running
 /// binary so the tool works regardless of the user's current working directory.
 fn resolve_browser_driver_path() -> Result<std::path::PathBuf> {
+    let exe_dir = std::env::current_exe()
+        .ok()
+        .and_then(|p| std::fs::canonicalize(p).ok())
+        .and_then(|p| p.parent().map(|p| p.to_path_buf()));
+
     let candidates: Vec<std::path::PathBuf> = vec![
-        // Primary: directory containing the executable (handles symlinks on Unix)
-        std::env::current_exe()
-            .ok()
-            .and_then(|p| p.parent().map(|p| p.to_path_buf())),
+        // Primary: directory containing the resolved executable (follows symlinks)
+        exe_dir,
         // Fallback: current working directory (useful during local development)
         std::env::current_dir().ok(),
     ]
