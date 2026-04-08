@@ -29,12 +29,41 @@ struct RpcResponse {
     error: Option<String>,
 }
 
+/// Resolves the path to `scripts/browser_driver.js` relative to the running
+/// binary so the tool works regardless of the user's current working directory.
+fn resolve_browser_driver_path() -> Result<std::path::PathBuf> {
+    let candidates: Vec<std::path::PathBuf> = vec![
+        // Primary: directory containing the executable (handles symlinks on Unix)
+        std::env::current_exe()
+            .ok()
+            .and_then(|p| p.parent().map(|p| p.to_path_buf())),
+        // Fallback: current working directory (useful during local development)
+        std::env::current_dir().ok(),
+    ]
+    .into_iter()
+    .flatten()
+    .map(|dir| dir.join("scripts").join("browser_driver.js"))
+    .collect();
+
+    for path in &candidates {
+        if path.exists() {
+            return Ok(path.clone());
+        }
+    }
+
+    anyhow::bail!(
+        "Could not find scripts/browser_driver.js. \
+         Searched: {:?}. \
+         Make sure you run the binary from the installation directory \
+         or that the 'scripts' folder is next to the executable.",
+        candidates
+    )
+}
+
 #[allow(dead_code)]
 impl BrowserDriver {
     pub async fn spawn(headless: bool) -> Result<Self> {
-        let script_path = std::env::current_dir()?
-            .join("scripts")
-            .join("browser_driver.js");
+        let script_path = resolve_browser_driver_path()?;
 
         info!("Spawning browser driver: {}", script_path.display());
 
