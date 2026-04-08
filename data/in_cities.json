@@ -1,0 +1,894 @@
+{
+  "Adams": [
+    "Berne city",
+    "Decatur city",
+    "Geneva town",
+    "Monroe town"
+  ],
+  "Allen": [
+    "Fort Wayne city",
+    "Grabill town",
+    "Harlan CDP",
+    "Hoagland CDP",
+    "Huntertown town",
+    "Leo-Cedarville town",
+    "Monroeville town",
+    "New Haven city",
+    "Woodburn city",
+    "Zanesville town"
+  ],
+  "Bartholomew": [
+    "Clifford town",
+    "Columbus city",
+    "Edinburgh town",
+    "Elizabethtown town",
+    "Hartsville town",
+    "Hope town",
+    "Jonesville town",
+    "Taylorsville CDP"
+  ],
+  "Benton": [
+    "Ambia town",
+    "Boswell town",
+    "Earl Park town",
+    "Fowler town",
+    "Otterbein town",
+    "Oxford town"
+  ],
+  "Blackford": [
+    "Dunkirk city",
+    "Hartford City city",
+    "Montpelier city",
+    "Shamrock Lakes town"
+  ],
+  "Boone": [
+    "Advance town",
+    "Jamestown town",
+    "Lebanon city",
+    "Thorntown town",
+    "Ulen town",
+    "Whitestown town",
+    "Zionsville town"
+  ],
+  "Brown": [
+    "Cordry Sweetwater Lakes CDP",
+    "Nashville town"
+  ],
+  "Carroll": [
+    "Burlington town",
+    "Camden town",
+    "Delphi city",
+    "Flora town",
+    "Yeoman town"
+  ],
+  "Cass": [
+    "Galveston town",
+    "Grissom AFB CDP",
+    "Logansport city",
+    "Onward town",
+    "Royal Center town",
+    "Walton town"
+  ],
+  "Clark": [
+    "Borden town",
+    "Charlestown city",
+    "Clarksville town",
+    "Henryville CDP",
+    "Jeffersonville city",
+    "Memphis CDP",
+    "New Washington CDP",
+    "Sellersburg town",
+    "Utica town"
+  ],
+  "Clay": [
+    "Brazil city",
+    "Carbon town",
+    "Center Point town",
+    "Clay City town",
+    "Coalmont CDP",
+    "Harmony town",
+    "Knightsville town",
+    "Staunton town"
+  ],
+  "Clinton": [
+    "Colfax town",
+    "Frankfort city",
+    "Kirklin town",
+    "Michigantown town",
+    "Mulberry town",
+    "Rossville town"
+  ],
+  "Crawford": [
+    "Alton town",
+    "English town",
+    "Leavenworth town",
+    "Marengo town",
+    "Milltown town"
+  ],
+  "Daviess": [
+    "Alfordsville town",
+    "Cannelburg town",
+    "Elnora town",
+    "Montgomery town",
+    "Odon town",
+    "Plainville town",
+    "Raglesville CDP",
+    "Washington city"
+  ],
+  "DeKalb": [
+    "Altona town",
+    "Ashley town",
+    "Auburn city",
+    "Butler city",
+    "Corunna town",
+    "Garrett city",
+    "Hamilton town",
+    "St. Joe town",
+    "Waterloo town"
+  ],
+  "Dearborn": [
+    "Aurora city",
+    "Bright CDP",
+    "Dillsboro town",
+    "Greendale city",
+    "Hidden Valley CDP",
+    "Lawrenceburg city",
+    "Moores Hill town",
+    "St. Leon town",
+    "West Harrison town"
+  ],
+  "Decatur": [
+    "Clarksburg CDP",
+    "Greensburg city",
+    "Lake Santee CDP",
+    "Millhousen town",
+    "New Point town",
+    "St. Paul town",
+    "Westport town"
+  ],
+  "Delaware": [
+    "Albany town",
+    "Chesterfield town",
+    "Daleville town",
+    "Eaton town",
+    "Gaston town",
+    "Muncie city",
+    "Selma town",
+    "Yorktown town"
+  ],
+  "Dubois": [
+    "Birdseye town",
+    "Dubois CDP",
+    "Ferdinand town",
+    "Holland town",
+    "Huntingburg city",
+    "Jasper city"
+  ],
+  "Elkhart": [
+    "Bristol town",
+    "Dunlap CDP",
+    "Elkhart city",
+    "Goshen city",
+    "Middlebury town",
+    "Millersburg town",
+    "Nappanee city",
+    "New Paris CDP",
+    "Simonton Lake CDP",
+    "Wakarusa town"
+  ],
+  "Fayette": [
+    "Connersville city",
+    "Glenwood town"
+  ],
+  "Floyd": [
+    "Galena CDP",
+    "Georgetown town",
+    "Greenville town",
+    "New Albany city"
+  ],
+  "Fountain": [
+    "Attica city",
+    "Covington city",
+    "Hillsboro town",
+    "Kingman town",
+    "Mellott town",
+    "Newtown town",
+    "Veedersburg town",
+    "Wallace town"
+  ],
+  "Franklin": [
+    "Batesville city",
+    "Brookville town",
+    "Cedar Grove town",
+    "Lake Santee CDP",
+    "Laurel town",
+    "Metamora CDP",
+    "Mount Carmel town",
+    "New Trenton CDP",
+    "Oldenburg town"
+  ],
+  "Fulton": [
+    "Akron town",
+    "Fulton town",
+    "Kewanna town",
+    "Rochester city"
+  ],
+  "Gibson": [
+    "Fort Branch town",
+    "Francisco town",
+    "Haubstadt town",
+    "Hazleton town",
+    "Mackey town",
+    "Oakland City city",
+    "Owensville town",
+    "Patoka town",
+    "Princeton city",
+    "Somerville town"
+  ],
+  "Grant": [
+    "Converse town",
+    "Fairmount town",
+    "Fowlerton town",
+    "Gas City city",
+    "Herbst CDP",
+    "Jalapa CDP",
+    "Jonesboro city",
+    "Landess CDP",
+    "Marion city",
+    "Matthews town",
+    "Mier CDP",
+    "Point Isabel CDP",
+    "Sims CDP",
+    "Swayzee town",
+    "Sweetser town",
+    "Upland town",
+    "Van Buren town"
+  ],
+  "Greene": [
+    "Bloomfield town",
+    "Jasonville city",
+    "Linton city",
+    "Lyons town",
+    "Newberry town",
+    "Owensburg CDP",
+    "Scotland CDP",
+    "Switz City town",
+    "Worthington town"
+  ],
+  "Hamilton": [
+    "Arcadia town",
+    "Atlanta town",
+    "Carmel city",
+    "Cicero town",
+    "Fishers town",
+    "Fortville town",
+    "Noblesville city",
+    "Sheridan town",
+    "Westfield town"
+  ],
+  "Hancock": [
+    "Cumberland town",
+    "Fortville town",
+    "Greenfield city",
+    "McCordsville town",
+    "New Palestine town",
+    "Shirley town",
+    "Spring Lake town",
+    "Wilkinson town"
+  ],
+  "Harrison": [
+    "Corydon town",
+    "Crandall town",
+    "Elizabeth town",
+    "Laconia town",
+    "Lanesville town",
+    "Mauckport town",
+    "Milltown town",
+    "New Amsterdam town",
+    "New Middletown town",
+    "New Salisbury CDP",
+    "Palmyra town"
+  ],
+  "Hendricks": [
+    "Amo town",
+    "Avon town",
+    "Brownsburg town",
+    "Clayton town",
+    "Coatesville town",
+    "Danville town",
+    "Jamestown town",
+    "Lizton town",
+    "North Salem town",
+    "Pittsboro town",
+    "Plainfield town",
+    "Stilesville town"
+  ],
+  "Henry": [
+    "Blountsville town",
+    "Cadiz town",
+    "Dunreith town",
+    "Greensboro town",
+    "Kennard town",
+    "Knightstown town",
+    "Lewisville town",
+    "Middletown town",
+    "Mooreland town",
+    "Mount Summit town",
+    "New Castle city",
+    "Shirley town",
+    "Spiceland town",
+    "Springport town",
+    "Straughn town",
+    "Sulphur Springs town"
+  ],
+  "Howard": [
+    "Greentown town",
+    "Indian Heights CDP",
+    "Kokomo city",
+    "Russiaville town"
+  ],
+  "Huntington": [
+    "Andrews town",
+    "Huntington city",
+    "Markle town",
+    "Mount Etna town",
+    "Roanoke town",
+    "Warren town"
+  ],
+  "Jackson": [
+    "Brownstown town",
+    "Crothersville town",
+    "Freetown CDP",
+    "Medora town",
+    "Seymour city",
+    "Vallonia CDP"
+  ],
+  "Jasper": [
+    "Collegeville CDP",
+    "De Motte town",
+    "Remington town",
+    "Rensselaer city",
+    "Roselawn CDP",
+    "Wheatfield town"
+  ],
+  "Jay": [
+    "Bryant town",
+    "Dunkirk city",
+    "Pennville town",
+    "Portland city",
+    "Redkey town",
+    "Salamonia town"
+  ],
+  "Jefferson": [
+    "Brooksburg town",
+    "Canaan CDP",
+    "Deputy CDP",
+    "Dupont town",
+    "Hanover town",
+    "Kent CDP",
+    "Madison city"
+  ],
+  "Jennings": [
+    "Butlerville CDP",
+    "Country Squire Lakes CDP",
+    "Hayden CDP",
+    "North Vernon city",
+    "Scipio CDP",
+    "Vernon town"
+  ],
+  "Johnson": [
+    "Bargersville town",
+    "Edinburgh town",
+    "Franklin city",
+    "Greenwood city",
+    "New Whiteland town",
+    "Princes Lakes town",
+    "Trafalgar town",
+    "Whiteland town"
+  ],
+  "Knox": [
+    "Bicknell city",
+    "Bruceville town",
+    "Decker town",
+    "Edwardsport town",
+    "Emison CDP",
+    "Freelandville CDP",
+    "Monroe City town",
+    "Oaktown town",
+    "Ragsdale CDP",
+    "Sandborn town",
+    "Vincennes city",
+    "Westphalia CDP",
+    "Wheatland town"
+  ],
+  "Kosciusko": [
+    "Burket town",
+    "Claypool town",
+    "Etna Green town",
+    "Leesburg town",
+    "Mentone town",
+    "Milford town",
+    "Nappanee city",
+    "North Webster town",
+    "Pierceton town",
+    "Sidney town",
+    "Silver Lake town",
+    "Syracuse town",
+    "Warsaw city",
+    "Winona Lake town"
+  ],
+  "LaGrange": [
+    "Howe CDP",
+    "Lagrange town",
+    "Shipshewana town",
+    "Topeka town",
+    "Wolcottville town"
+  ],
+  "LaPorte": [
+    "Fish Lake CDP",
+    "Hanna CDP",
+    "Hudson Lake CDP",
+    "Kingsbury town",
+    "Kingsford Heights town",
+    "La Crosse town",
+    "La Porte city",
+    "Long Beach town",
+    "Michiana Shores town",
+    "Michigan City city",
+    "Pottawattamie Park town",
+    "Rolling Prairie CDP",
+    "Trail Creek town",
+    "Wanatah town",
+    "Westville town"
+  ],
+  "Lake": [
+    "Cedar Lake town",
+    "Crown Point city",
+    "Dyer town",
+    "East Chicago city",
+    "Gary city",
+    "Griffith town",
+    "Hammond city",
+    "Highland town",
+    "Hobart city",
+    "Lake Dalecarlia CDP",
+    "Lake Station city",
+    "Lakes of the Four Seasons CDP",
+    "Lowell town",
+    "Merrillville town",
+    "Munster town",
+    "New Chicago town",
+    "Schererville town",
+    "Schneider town",
+    "Shelby CDP",
+    "St. John town",
+    "Whiting city",
+    "Winfield town"
+  ],
+  "Lawrence": [
+    "Avoca CDP",
+    "Bedford city",
+    "Mitchell city",
+    "Oolitic town",
+    "Williams CDP"
+  ],
+  "Madison": [
+    "Alexandria city",
+    "Anderson city",
+    "Chesterfield town",
+    "Country Club Heights town",
+    "Edgewood town",
+    "Elwood city",
+    "Frankton town",
+    "Ingalls town",
+    "Lapel town",
+    "Markleville town",
+    "Orestes town",
+    "Pendleton town",
+    "River Forest town",
+    "Summitville town",
+    "Woodlawn Heights town"
+  ],
+  "Marion": [
+    "Beech Grove city",
+    "Clermont town",
+    "Crows Nest town",
+    "Cumberland town",
+    "Homecroft town",
+    "Indianapolis city (balance)",
+    "Lawrence city",
+    "Meridian Hills town",
+    "North Crows Nest town",
+    "Rocky Ripple town",
+    "Southport city",
+    "Speedway town",
+    "Spring Hill town",
+    "Warren Park town",
+    "Williams Creek town",
+    "Wynnedale town"
+  ],
+  "Marshall": [
+    "Argos town",
+    "Bourbon town",
+    "Bremen town",
+    "Culver town",
+    "Koontz Lake CDP",
+    "La Paz town",
+    "Plymouth city"
+  ],
+  "Martin": [
+    "Burns City CDP",
+    "Crane town",
+    "Dover Hill CDP",
+    "Loogootee city",
+    "Shoals town"
+  ],
+  "Miami": [
+    "Amboy town",
+    "Bunker Hill town",
+    "Converse town",
+    "Denver town",
+    "Grissom AFB CDP",
+    "Macy town",
+    "Mexico CDP",
+    "Peru city"
+  ],
+  "Monroe": [
+    "Bloomington city",
+    "Ellettsville town",
+    "Harrodsburg CDP",
+    "Smithville-Sanders CDP",
+    "Stinesville town"
+  ],
+  "Montgomery": [
+    "Alamo town",
+    "Crawfordsville city",
+    "Darlington town",
+    "Ladoga town",
+    "Lake Holiday CDP",
+    "Linden town",
+    "New Market town",
+    "New Richmond town",
+    "New Ross town",
+    "Waveland town",
+    "Waynetown town",
+    "Wingate town"
+  ],
+  "Morgan": [
+    "Bethany town",
+    "Brooklyn town",
+    "Martinsville city",
+    "Monrovia town",
+    "Mooresville town",
+    "Morgantown town",
+    "Painted Hills CDP",
+    "Paragon town"
+  ],
+  "Newton": [
+    "Brook town",
+    "Goodland town",
+    "Kentland town",
+    "Lake Village CDP",
+    "Morocco town",
+    "Mount Ayr town",
+    "Roselawn CDP"
+  ],
+  "Noble": [
+    "Albion town",
+    "Avilla town",
+    "Cromwell town",
+    "Kendallville city",
+    "Kimmell CDP",
+    "Ligonier city",
+    "Rome City town",
+    "Wolcottville town"
+  ],
+  "Ohio": [
+    "Rising Sun city"
+  ],
+  "Orange": [
+    "French Lick town",
+    "Orleans town",
+    "Paoli town",
+    "West Baden Springs town"
+  ],
+  "Owen": [
+    "Gosport town",
+    "Spencer town"
+  ],
+  "Parke": [
+    "Bloomingdale town",
+    "Marshall town",
+    "Mecca town",
+    "Montezuma town",
+    "Rockville town",
+    "Rosedale town"
+  ],
+  "Perry": [
+    "Cannelton city",
+    "Tell City city",
+    "Troy town"
+  ],
+  "Pike": [
+    "Otwell CDP",
+    "Petersburg city",
+    "Spurgeon town",
+    "Winslow town"
+  ],
+  "Porter": [
+    "Aberdeen CDP",
+    "Beverly Shores town",
+    "Burns Harbor town",
+    "Chesterton town",
+    "Dune Acres town",
+    "Hebron town",
+    "Kouts town",
+    "Lakes of the Four Seasons CDP",
+    "Ogden Dunes town",
+    "Portage city",
+    "Porter town",
+    "Salt Creek Commons CDP",
+    "Shorewood Forest CDP",
+    "South Haven CDP",
+    "Town of Pines town",
+    "Valparaiso city",
+    "Wheeler CDP"
+  ],
+  "Posey": [
+    "Cynthiana town",
+    "Griffin town",
+    "Mount Vernon city",
+    "New Harmony town",
+    "Parkers Settlement CDP",
+    "Poseyville town"
+  ],
+  "Pulaski": [
+    "Francesville town",
+    "Medaryville town",
+    "Monterey town",
+    "Star City CDP",
+    "Winamac town"
+  ],
+  "Putnam": [
+    "Bainbridge town",
+    "Cloverdale town",
+    "Fillmore town",
+    "Greencastle city",
+    "Heritage Lake CDP",
+    "Roachdale town",
+    "Russellville town",
+    "Van Bibber Lake CDP"
+  ],
+  "Randolph": [
+    "Albany town",
+    "Farmland town",
+    "Losantville town",
+    "Lynn town",
+    "Modoc town",
+    "Parker City town",
+    "Ridgeville town",
+    "Saratoga town",
+    "Union City city",
+    "Winchester city"
+  ],
+  "Ripley": [
+    "Batesville city",
+    "Holton town",
+    "Milan town",
+    "Napoleon town",
+    "Osgood town",
+    "Sunman town",
+    "Versailles town"
+  ],
+  "Rush": [
+    "Arlington CDP",
+    "Carthage town",
+    "Glenwood town",
+    "Manilla CDP",
+    "Milroy CDP",
+    "Rushville city"
+  ],
+  "Scott": [
+    "Austin city",
+    "Scottsburg city"
+  ],
+  "Shelby": [
+    "Edinburgh town",
+    "Fairland town",
+    "Morristown town",
+    "Shelbyville city",
+    "St. Paul town",
+    "Waldron CDP"
+  ],
+  "Spencer": [
+    "Chrisney town",
+    "Dale town",
+    "Gentryville town",
+    "Grandview town",
+    "Hatfield CDP",
+    "Richland town",
+    "Rockport city",
+    "Santa Claus town",
+    "St. Meinrad CDP"
+  ],
+  "St. Joseph": [
+    "Granger CDP",
+    "Indian Village town",
+    "Lakeville town",
+    "Mishawaka city",
+    "New Carlisle town",
+    "North Liberty town",
+    "Notre Dame CDP",
+    "Osceola town",
+    "Roseland town",
+    "South Bend city",
+    "Walkerton town"
+  ],
+  "Starke": [
+    "Bass Lake CDP",
+    "Hamlet town",
+    "Knox city",
+    "Koontz Lake CDP",
+    "North Judson town",
+    "San Pierre CDP"
+  ],
+  "Steuben": [
+    "Angola city",
+    "Ashley town",
+    "Clear Lake town",
+    "Fremont town",
+    "Hamilton town",
+    "Hudson town",
+    "Orland town"
+  ],
+  "Sullivan": [
+    "Carlisle town",
+    "Dugger town",
+    "Farmersburg town",
+    "Hymera town",
+    "Merom town",
+    "Shelburn town",
+    "Sullivan city"
+  ],
+  "Switzerland": [
+    "East Enterprise CDP",
+    "Florence CDP",
+    "Patriot town",
+    "Vevay town"
+  ],
+  "Tippecanoe": [
+    "Americus CDP",
+    "Battle Ground town",
+    "Buck Creek CDP",
+    "Clarks Hill town",
+    "Colburn CDP",
+    "Dayton town",
+    "Lafayette city",
+    "Montmorenci CDP",
+    "Otterbein town",
+    "Purdue University CDP",
+    "Shadeland town",
+    "Stockwell CDP",
+    "West Lafayette city",
+    "West Point CDP"
+  ],
+  "Tipton": [
+    "Elwood city",
+    "Kempton town",
+    "Sharpsville town",
+    "Tipton city",
+    "Windfall City town"
+  ],
+  "Union": [
+    "Liberty town",
+    "West College Corner town"
+  ],
+  "Vanderburgh": [
+    "Darmstadt town",
+    "Evansville city",
+    "Highland CDP",
+    "Melody Hill CDP"
+  ],
+  "Vermillion": [
+    "Blanford CDP",
+    "Cayuga town",
+    "Clinton city",
+    "Dana town",
+    "Fairview Park town",
+    "Newport town",
+    "Perrysville town",
+    "St. Bernice CDP",
+    "Universal town"
+  ],
+  "Vigo": [
+    "Dresser CDP",
+    "Fontanet CDP",
+    "New Goshen CDP",
+    "North Terre Haute CDP",
+    "Riley town",
+    "Seelyville town",
+    "Shepardsville CDP",
+    "St. Mary of the Woods CDP",
+    "Tecumseh CDP",
+    "Terre Haute city",
+    "Toad Hop CDP",
+    "West Terre Haute town"
+  ],
+  "Wabash": [
+    "La Fontaine town",
+    "Lagro town",
+    "Laketon CDP",
+    "North Manchester town",
+    "Roann town",
+    "Somerset CDP",
+    "Wabash city"
+  ],
+  "Warren": [
+    "Pine Village town",
+    "State Line City town",
+    "West Lebanon town",
+    "Williamsport town"
+  ],
+  "Warrick": [
+    "Boonville city",
+    "Chandler town",
+    "Elberfeld town",
+    "Lynnville town",
+    "Newburgh town",
+    "Tennyson town"
+  ],
+  "Washington": [
+    "Campbellsburg town",
+    "Fredericksburg town",
+    "Hardinsburg town",
+    "Little York town",
+    "Livonia town",
+    "New Pekin town",
+    "Salem city",
+    "Saltillo town"
+  ],
+  "Wayne": [
+    "Boston town",
+    "Cambridge City town",
+    "Centerville town",
+    "Dublin town",
+    "East Germantown town",
+    "Economy town",
+    "Fountain City town",
+    "Greens Fork town",
+    "Hagerstown town",
+    "Milton town",
+    "Mount Auburn town",
+    "Richmond city",
+    "Spring Grove town",
+    "Whitewater town"
+  ],
+  "Wells": [
+    "Bluffton city",
+    "Markle town",
+    "Ossian town",
+    "Poneto town",
+    "Uniondale town",
+    "Vera Cruz town",
+    "Zanesville town"
+  ],
+  "White": [
+    "Brookston town",
+    "Buffalo CDP",
+    "Burnettsville town",
+    "Chalmers town",
+    "Idaville CDP",
+    "Monon town",
+    "Monticello city",
+    "Norway CDP",
+    "Reynolds town",
+    "Wolcott town"
+  ],
+  "Whitley": [
+    "Churubusco town",
+    "Columbia City city",
+    "Larwill town",
+    "South Whitley town",
+    "Tri-Lakes CDP"
+  ]
+}

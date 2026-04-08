@@ -1,0 +1,20 @@
+# Rust build artifacts
+/target
+
+# Binary symlink (built externally)
+/indiana_business_dir
+
+# Node modules
+/node_modules
+
+# Local state and outputs
+*.db
+*.db-journal
+/outputs
+
+# Temporary exploration/test artifacts
+detail_test.*
+gas_city_businesses.csv
+scripts/explore*.html
+scripts/explore*.js
+!scripts/browser_driver.js
