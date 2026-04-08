@@ -77,11 +77,8 @@ async function handleCommand(cmd) {
         await page.locator('#rdContains').check();
         await page.locator('#rdBusinessName').check();
         await page.locator('#txtZipCode').fill(String(params.zip));
-        await Promise.all([
-          page.waitForLoadState('networkidle'),
-          page.locator('#btnSearch').click({ force: true })
-        ]);
-        await page.waitForTimeout(2000);
+        await page.locator('#btnSearch').click({ force: true });
+        await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
         sendResponse(id, { status: 'ok', url: page.url(), error: error.trim() || null });
         break;
@@ -94,11 +91,8 @@ async function handleCommand(cmd) {
         // Strip common Census suffixes like " city", " town", " CDP", " village"
         let city = String(params.city).replace(/\s+(city|town|cdp|village)$/i, '');
         await page.locator('#txtCity').fill(city);
-        await Promise.all([
-          page.waitForLoadState('networkidle'),
-          page.locator('#btnSearch').click({ force: true })
-        ]);
-        await page.waitForTimeout(2000);
+        await page.locator('#btnSearch').click({ force: true });
+        await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
         sendResponse(id, { status: 'ok', url: page.url(), error: error.trim() || null });
         break;
@@ -110,11 +104,8 @@ async function handleCommand(cmd) {
         await page.locator('#rdBusinessName').check();
         await page.locator('#txtBusinessName').fill(String(params.name));
         await page.locator('#txtCity').fill(String(params.city));
-        await Promise.all([
-          page.waitForLoadState('networkidle'),
-          page.locator('#btnSearch').click({ force: true })
-        ]);
-        await page.waitForTimeout(2000);
+        await page.locator('#btnSearch').click({ force: true });
+        await page.waitForTimeout(3000);
         const error = await page.locator('#errorDialog').textContent().catch(() => '');
         sendResponse(id, { status: 'ok', url: page.url(), error: error.trim() || null });
         break;
@@ -175,11 +166,8 @@ async function handleCommand(cmd) {
           sendResponse(id, { clicked: false, reason: 'disabled' });
           break;
         }
-        await Promise.all([
-          page.waitForLoadState('networkidle'),
-          nextLink.click()
-        ]);
-        await page.waitForTimeout(2000);
+        await nextLink.click();
+        await page.waitForTimeout(3000);
         sendResponse(id, { clicked: true });
         break;
       }
