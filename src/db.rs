@@ -1,7 +1,7 @@
 use crate::models::{BusinessRecord, EnrichmentStatus};
 use anyhow::{Context, Result};
 use chrono::{DateTime, Utc};
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 use std::path::Path;
 
 pub struct Db {
