@@ -70,9 +70,37 @@ By using Playwright with `puppeteer-extra-plugin-stealth`, the tool:
 
 ## Installation
 
-### Quick Install (Prebuilt Binaries)
+### Quick Install (One-Liner)
 
-Prebuilt binaries are available for **macOS (Intel & Apple Silicon)**, **Linux (x86_64)**, and **Windows (x86_64)** on the [Releases page](https://github.com/millerjes37/indiana_business_dir/releases).
+We provide auto-install scripts that detect your platform, download the correct prebuilt binary, install Node.js dependencies, and place the binary on your PATH.
+
+#### macOS / Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/millerjes37/indiana_business_dir/main/install.sh | bash
+```
+
+You can customize the install location:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/millerjes37/indiana_business_dir/main/install.sh | INSTALL_DIR=$HOME/bin bash
+```
+
+#### Windows (PowerShell)
+
+```powershell
+irm https://raw.githubusercontent.com/millerjes37/indiana_business_dir/main/install.ps1 | iex
+```
+
+You can customize the install location:
+
+```powershell
+$env:INSTALL_DIR = "$env:USERPROFILE\bin"; irm https://raw.githubusercontent.com/millerjes37/indiana_business_dir/main/install.ps1 | iex
+```
+
+### Manual Download
+
+If you prefer to download and extract the archive yourself, prebuilt binaries are available for **macOS (Intel & Apple Silicon)**, **Linux (x86_64)**, and **Windows (x86_64)** on the [Releases page](https://github.com/millerjes37/indiana_business_dir/releases).
 
 Each release archive includes the binary, the Node.js browser driver (`scripts/browser_driver.js`), embedded county data, and `package.json` / `package-lock.json` so you can install Node dependencies.
 
