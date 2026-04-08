@@ -5,8 +5,15 @@ on:
     tags:
       - 'v*.*.*'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -58,10 +65,9 @@ jobs:
           cp target/release/indiana_business_dir dist/indiana_business_dir/
           cp -r scripts dist/indiana_business_dir/
           cp -r data dist/indiana_business_dir/
-          cp package.json package-lock.json README.md dist/indiana_business_dir/
+          cp package.json package-lock.json README.md install.sh dist/indiana_business_dir/
           cd dist
           tar czf "${{ matrix.archive_name }}" indiana_business_dir
-          echo "ASSET=${{ matrix.archive_name }}" >> "$GITHUB_ENV"
 
       - name: Package (Windows)
         if: runner.os == 'Windows'
@@ -73,9 +79,9 @@ jobs:
           Copy-Item package.json dist\indiana_business_dir\
           Copy-Item package-lock.json dist\indiana_business_dir\
           Copy-Item README.md dist\indiana_business_dir\
+          Copy-Item install.ps1 dist\indiana_business_dir\
           cd dist
           Compress-Archive -Path indiana_business_dir -DestinationPath "${{ matrix.archive_name }}"
-          echo "ASSET=${{ matrix.archive_name }}" >> "$env:GITHUB_ENV"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -93,6 +99,9 @@ jobs:
         with:
           path: artifacts
           pattern: '*'
+
+      - name: Display downloaded artifacts
+        run: ls -R artifacts
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
